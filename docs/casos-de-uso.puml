@@ -1,0 +1,51 @@
+@startuml
+
+skinparam actorStyle awesome
+
+"Fazer login com nome de usuário" as (fazerLogin)
+
+package Categorias {
+  "Criar categoria de tarefas" as (criarCategoria)
+  "Listar categorias com tarefas" as (listarCategorias)
+  "Renomear categoria" as (renomearCategoria)
+  "Reordenar categoria" as (reordenarCategoria)
+  "Excluir categoria com suas tarefas" as (excluirCategoria)
+}
+
+package Tarefas {
+  "Criar tarefa" as (criarTarefa)
+  "Renomear tarefa" as (renomearTarefa)
+  "Excluir tarefa" as (excluirTarefa)
+  "Marcar tarefa como concluída" as (marcarTarefaConcluida)
+  "Desmarcar tarefa como concluída" as (desmarcarTarefaConcluida)
+  "Reordenar tarefa em uma categoria" as (reordenarTarefa)
+}
+
+"Usuário Deslogado" as usuarioDeslogado
+"Usuário Logado" as usuarioLogado
+
+usuarioDeslogado <|-- usuarioLogado
+
+usuarioDeslogado -down-> (fazerLogin)
+
+usuarioLogado -down-> (criarCategoria)
+usuarioLogado -down-> (listarCategorias)
+usuarioLogado -down-> (renomearCategoria)
+usuarioLogado -down-> (reordenarCategoria)
+usuarioLogado -up-> (excluirCategoria)
+
+usuarioLogado -up-> (criarTarefa)
+usuarioLogado -up-> (renomearTarefa)
+usuarioLogado -up-> (excluirTarefa)
+
+usuarioLogado -left-> (marcarTarefaConcluida)
+usuarioLogado -left-> (desmarcarTarefaConcluida)
+usuarioLogado -left-> (reordenarTarefa)
+
+note as N1
+  Todos casos de uso tem como pré requisito o caso de uso
+  "Faz login com nome de usuário", porém omitimos a
+  dependência para melhorar a legibilidade do diagrama
+end note
+
+@enduml
