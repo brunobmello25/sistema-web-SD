@@ -3,6 +3,7 @@
 skinparam actorStyle awesome
 
 "Fazer login com nome de usuário" as (fazerLogin)
+"Fazer logout" as (fazerLogout)
 
 package Categorias {
   "Criar categoria de tarefas" as (criarCategoria)
@@ -41,6 +42,7 @@ usuarioLogado -up-> (excluirTarefa)
 usuarioLogado -left-> (marcarTarefaConcluida)
 usuarioLogado -left-> (desmarcarTarefaConcluida)
 usuarioLogado -left-> (reordenarTarefa)
+usuarioLogado -left-> (fazerLogout)
 
 note as N1
   Todos casos de uso tem como pré requisito o caso de uso

@@ -2,12 +2,13 @@
 
 ## Usuários e Autenticação
 
+1. **Usuário Logado**: O sistema deve suportar um estado onde os usuários estão logados.
 
-1. **Usuário Logado**: O sistema deve suportar um estado onde os usuários estão autenticados e logados.
+2. **Usuário deslogado**: O sistema deve suportar um estado onde os usuários estão deslogados.
 
-2. **Acesso deslogado**: O sistema deve reconhecer quando um usuário não está logado e redirecioná-lo para a página de login caso tente acessar outra página.
+3. **Acesso deslogado**: O sistema deve reconhecer quando um usuário não está logado e redirecioná-lo para a página de login caso tente acessar outra página.
 
-3. **Acesso logado**: O sistema deve reconhecer que o usuário está logado e redirecioná-lo para a página de tarefas caso acesse a página de login.
+4. **Acesso logado**: O sistema deve reconhecer que o usuário está logado e redirecioná-lo para a página de tarefas caso acesse a página de login.
 
 ## Gerenciamento de Tarefas:
 
@@ -37,7 +38,9 @@
 
 ## Requisitos de Acesso:
 
-1. **Fazer Login com Nome de Usuário**: O sistema deve permitir que os usuários façam login usando um nome de usuário.
+1. **Fazer Login com Nome de Usuário**: O sistema deve permitir que os usuários façam login usando um nome de usuário, enviando-os para a página de listagem de tarefas.
+
+2. **Fazer logou**: O sistema deve permitir que os usuários façam logout, enviando-os de volta para a página de login.
 
 ## Observações:
 
