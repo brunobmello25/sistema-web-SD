@@ -2,9 +2,6 @@
 
 skinparam actorStyle awesome
 
-"Fazer login com nome de usuário" as (fazerLogin)
-"Fazer logout" as (fazerLogout)
-
 package Categorias {
   "Criar categoria de tarefas" as (criarCategoria)
   "Listar categorias com tarefas" as (listarCategorias)
@@ -22,32 +19,20 @@ package Tarefas {
   "Reordenar tarefa em uma categoria" as (reordenarTarefa)
 }
 
-"Usuário Deslogado" as usuarioDeslogado
-"Usuário Logado" as usuarioLogado
+"Usuário" as usuario
 
-usuarioDeslogado <|-- usuarioLogado
+usuario -down-> (criarCategoria)
+usuario -down-> (listarCategorias)
+usuario -down-> (renomearCategoria)
+usuario -down-> (reordenarCategoria)
+usuario -up-> (excluirCategoria)
 
-usuarioDeslogado -down-> (fazerLogin)
+usuario -up-> (criarTarefa)
+usuario -up-> (renomearTarefa)
+usuario -up-> (excluirTarefa)
 
-usuarioLogado -down-> (criarCategoria)
-usuarioLogado -down-> (listarCategorias)
-usuarioLogado -down-> (renomearCategoria)
-usuarioLogado -down-> (reordenarCategoria)
-usuarioLogado -up-> (excluirCategoria)
-
-usuarioLogado -up-> (criarTarefa)
-usuarioLogado -up-> (renomearTarefa)
-usuarioLogado -up-> (excluirTarefa)
-
-usuarioLogado -left-> (marcarTarefaConcluida)
-usuarioLogado -left-> (desmarcarTarefaConcluida)
-usuarioLogado -left-> (reordenarTarefa)
-usuarioLogado -left-> (fazerLogout)
-
-note as N1
-  Todos casos de uso tem como pré requisito o caso de uso
-  "Faz login com nome de usuário", porém omitimos a
-  dependência para melhorar a legibilidade do diagrama
-end note
+usuario -left-> (marcarTarefaConcluida)
+usuario -left-> (desmarcarTarefaConcluida)
+usuario -left-> (reordenarTarefa)
 
 @enduml
