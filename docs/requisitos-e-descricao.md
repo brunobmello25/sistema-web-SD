@@ -62,7 +62,7 @@ O sistema é destinado a indivíduos que buscam uma ferramenta para gerenciar su
 
 1. **Fazer Login com Nome de Usuário**: O sistema deve permitir que os usuários façam login usando um nome de usuário, enviando-os para a página de listagem de tarefas.
 
-2. **Fazer logou**: O sistema deve permitir que os usuários façam logout, enviando-os de volta para a página de login.
+2. **Fazer logout**: O sistema deve permitir que os usuários façam logout, enviando-os de volta para a página de login.
 
 ### Usuários e Autenticação
 
