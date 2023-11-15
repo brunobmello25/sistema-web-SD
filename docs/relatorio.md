@@ -7,7 +7,7 @@ Membros do grupo:
 
 ## Política de divisão de tarefas
 
-Os membros do grupo dividiram entre si os casos de uso, concordando em uma distribuição de complexidade:
+Os membros do grupo dividiram entre si os requisitos funcionais e não funcionais, concordando em uma distribuição de complexidade:
 
 **Bruno**: CRUD de tarefas e login
 
