@@ -1,0 +1,18 @@
+@startuml
+!define DATABASE_COLOR #E5FFCC
+!define SERVER_COLOR #FFD1DC
+!define CLIENT_COLOR #D1D1E0
+
+title Arquitetura Lógica - Aplicação de Lista de Tarefas
+
+[Banco de Dados] DATABASE_COLOR
+
+[Servidor Backend] SERVER_COLOR
+
+[Servidor Frontend] CLIENT_COLOR
+
+[Banco de Dados] --> [Servidor Backend] : Comunicação TCP/IP com o servidor de DB
+
+[Servidor Backend] --> [Servidor Frontend] : Comunicação HTTP Cliente/Servidor via API Rest
+
+@enduml

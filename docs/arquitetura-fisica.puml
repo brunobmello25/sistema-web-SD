@@ -1,0 +1,30 @@
+@startuml
+!define DATABASE_COLOR #E5FFCC
+!define SERVER_COLOR #FFD1DC
+!define CLIENT_COLOR #D1D1E0
+
+title Arquitetura Lógica - Aplicação de Lista de Tarefas
+
+package "Railway" {
+    [Banco de Dados] DATABASE_COLOR
+}
+
+package "Railway app" {
+    [Servidor Backend] SERVER_COLOR
+}
+
+node "Vercel" {
+    [Servidor Frontend] CLIENT_COLOR
+}
+
+' note right of package railway app
+note right of [Servidor Backend]
+  a plataforma railway provê dois serviços diferentes:
+  um deles se chama "railway" para hospedagem de banco
+  de dados e outro se chama "railway.app", para hospedagem
+  de aplicações.
+end note
+
+[Banco de Dados] --> [Servidor Backend] : Comunicação TCP/IP com o servidor de DB 
+[Servidor Backend] --> [Servidor Frontend] : Comunicação HTTP Cliente/Servidor via API Rest 
+@enduml
