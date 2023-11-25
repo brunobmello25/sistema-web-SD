@@ -3,10 +3,12 @@ import { z } from "zod";
 const taskId = z.string().regex(/^\d+$/);
 const title = z.string();
 const done = z.boolean();
+const categoryId = z.number();
 
 export const createTaskSchema = {
   body: z.object({
-    title
+    title,
+    categoryId
   })
 };
 

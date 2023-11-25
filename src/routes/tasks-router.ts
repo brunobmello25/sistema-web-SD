@@ -1,30 +1,17 @@
 import httpStatus from "http-status";
 import { Router } from "express";
 import { validateRequest } from "zod-express-middleware";
-import { CreateTaskController } from "~/controllers/create-task-controller";
 
-import { ListTasksController } from "~/controllers/list-tasks-controller";
-import { ApplicationError } from "~/errors/application-error";
+import { CreateTaskController } from "~/controllers/tasks/create-task-controller";
+import { UpdateTaskController } from "~/controllers/tasks/update-task-controller";
+import { DeleteTaskController } from "~/controllers/tasks/delete-task-controller";
+
 import { authenticationSchema } from "~/schemas/authentication-schemas";
 import { createTaskSchema, deleteTaskSchema, updateTaskSchema } from "~/schemas/task-schemas";
-import { UpdateTaskController } from "~/controllers/update-task-controller";
-import { DeleteTaskController } from "~/controllers/delete-task-controller";
+
+import { ApplicationError } from "~/errors/application-error";
 
 export const tasksRouter = Router();
-
-tasksRouter.get("/", validateRequest({ query: authenticationSchema.query }), async (req, res) => {
-  try {
-    const tasks = await new ListTasksController().handle({ username: req.query.username });
-
-    res.json(tasks);
-  } catch (err: unknown) {
-    if (err instanceof ApplicationError) {
-      return res.status(err.statusCode).json({ error: err.message });
-    }
-
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
-  }
-});
 
 tasksRouter.post(
   "/",
@@ -34,12 +21,13 @@ tasksRouter.post(
   }),
   async (req, res) => {
     try {
-      const tasks = await new CreateTaskController().handle({
+      const task = await new CreateTaskController().handle({
         username: req.query.username,
-        title: req.body.title
+        title: req.body.title,
+        categoryId: Number(req.body.categoryId)
       });
 
-      res.json(tasks);
+      res.json(task);
     } catch (err: unknown) {
       if (err instanceof ApplicationError) {
         return res.status(err.statusCode).json({ error: err.message });
@@ -59,13 +47,13 @@ tasksRouter.put(
   }),
   async (req, res) => {
     try {
-      const tasks = await new UpdateTaskController().handle({
+      const task = await new UpdateTaskController().handle({
         taskId: Number(req.params.taskId),
         title: req.body.title,
         done: req.body.done
       });
 
-      res.json(tasks);
+      res.json(task);
     } catch (err: unknown) {
       if (err instanceof ApplicationError) {
         return res.status(err.statusCode).json({ error: err.message });
@@ -85,7 +73,8 @@ tasksRouter.delete(
   async (req, res) => {
     try {
       await new DeleteTaskController().handle({
-        taskId: Number(req.params.taskId)
+        taskId: Number(req.params.taskId),
+        username: req.query.username
       });
 
       res.sendStatus(httpStatus.NO_CONTENT);
