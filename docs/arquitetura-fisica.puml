@@ -3,7 +3,7 @@
 !define SERVER_COLOR #FFD1DC
 !define CLIENT_COLOR #D1D1E0
 
-title Arquitetura Lógica - Aplicação de Lista de Tarefas
+title Arquitetura Física - Aplicação de Lista de Tarefas
 
 package "Railway" {
     [Banco de Dados] DATABASE_COLOR
@@ -13,7 +13,7 @@ package "Railway app" {
     [Servidor Backend] SERVER_COLOR
 }
 
-node "Vercel" {
+package "Vercel" {
     [Servidor Frontend] CLIENT_COLOR
 }
 
