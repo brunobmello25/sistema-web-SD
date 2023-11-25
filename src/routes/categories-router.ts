@@ -6,8 +6,9 @@ import { authenticationSchema } from "~/schemas/authentication-schemas";
 
 import { ApplicationError } from "~/errors/application-error";
 import { ListCategoriesController } from "~/controllers/categories/list-categories-controller";
-import { createCategorySchema } from "~/schemas/categories-schemas";
+import { createCategorySchema, updateCategorySchema } from "~/schemas/categories-schemas";
 import { CreateCategoryController } from "~/controllers/categories/create-category-controller";
+import { UpdateCategoryController } from "~/controllers/categories/update-category-controller";
 
 export const categoriesRouter = Router();
 
@@ -42,6 +43,32 @@ categoriesRouter.post(
       const category = await new CreateCategoryController().handle({
         username: req.query.username,
         name: req.body.name
+      });
+
+      res.json(category);
+    } catch (err: unknown) {
+      if (err instanceof ApplicationError) {
+        return res.status(err.statusCode).json({ error: err.message });
+      }
+
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
+    }
+  }
+);
+
+categoriesRouter.put(
+  "/:categoryId",
+  validateRequest({
+    body: updateCategorySchema.body,
+    query: authenticationSchema.query,
+    params: updateCategorySchema.params
+  }),
+  async (req, res) => {
+    try {
+      const category = await new UpdateCategoryController().handle({
+        username: req.query.username,
+        name: req.body.name,
+        categoryId: Number(req.params.categoryId)
       });
 
       res.json(category);
