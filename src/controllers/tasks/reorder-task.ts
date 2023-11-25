@@ -1,16 +1,17 @@
-import { Task } from ".prisma/client";
+import { Task } from "@prisma/client";
 import httpStatus from "http-status";
 import { prisma } from "~/database";
 import { ApplicationError } from "~/errors/application-error";
 
 type Props = {
-  username: string;
-  title: string;
+  taskId: number;
+  beAfter: number;
   categoryId: number;
+  username: string;
 };
 
-export class CreateTaskController {
-  async handle({ username, title, categoryId }: Props): Promise<Task> {
+export class ReorderTaskController {
+  async handle({ categoryId, username, beAfter, taskId }: Props): Promise<Task> {
     const user = await prisma.user.findFirst({
       where: {
         username
@@ -31,24 +32,41 @@ export class CreateTaskController {
       throw new ApplicationError("Category not found", httpStatus.BAD_REQUEST);
     }
 
-    const lastTask = await prisma.task.findFirst({
-      orderBy: {
-        position: "desc"
-      },
+    let task = await prisma.task.findFirst({
       where: {
+        id: taskId
+      }
+    });
+
+    if (!task) {
+      throw new ApplicationError("Task not found", httpStatus.NOT_FOUND);
+    }
+
+    await prisma.task.updateMany({
+      where: {
+        position: {
+          gt: beAfter
+        },
         category: {
-          id: category.id
+          id: categoryId
+        }
+      },
+      data: {
+        position: {
+          increment: 1
         }
       }
     });
 
-    const task = await prisma.task.create({
+    task = await prisma.task.update({
+      where: {
+        id: taskId
+      },
       data: {
-        title,
-        position: lastTask ? lastTask.position + 1 : 1,
+        position: beAfter + 1,
         category: {
           connect: {
-            id: category.id
+            id: categoryId
           }
         }
       }

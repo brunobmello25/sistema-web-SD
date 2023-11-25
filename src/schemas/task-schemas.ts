@@ -27,3 +27,13 @@ export const deleteTaskSchema = {
     taskId
   })
 };
+
+export const reorderTaskSchema = {
+  body: z.object({
+    categoryId,
+    beAfter: z.number()
+  }),
+  params: z.object({
+    taskId
+  })
+};
