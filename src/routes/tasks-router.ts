@@ -39,6 +39,7 @@ tasksRouter.post(
         return res.status(err.statusCode).json({ error: err.message });
       }
 
+      console.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
@@ -65,6 +66,7 @@ tasksRouter.put(
         return res.status(err.statusCode).json({ error: err.message });
       }
 
+      console.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
@@ -89,6 +91,7 @@ tasksRouter.delete(
         return res.status(err.statusCode).json({ error: err.message });
       }
 
+      console.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
@@ -116,6 +119,7 @@ tasksRouter.put(
         return res.status(err.statusCode).json({ error: err.message });
       }
 
+      console.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
