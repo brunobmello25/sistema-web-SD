@@ -8,3 +8,16 @@ export const createTaskSchema = {
     username: z.string()
   })
 };
+
+export const updateTaskSchema = {
+  body: z.object({
+    title: z.string(),
+    done: z.boolean()
+  }),
+  query: z.object({
+    username: z.string()
+  }),
+  params: z.object({
+    taskId: z.number()
+  })
+};

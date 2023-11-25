@@ -1,23 +1,36 @@
+import httpStatus from "http-status";
 import { Router } from "express";
-import { validateRequestQuery, validateRequestBody } from "zod-express-middleware";
+import { validateRequest } from "zod-express-middleware";
 import { CreateTaskController } from "~/controllers/create-task-controller";
 
 import { ListTasksController } from "~/controllers/list-tasks-controller";
+import { ApplicationError } from "~/errors/application-error";
 import { authenticationSchema } from "~/schemas/authentication-schemas";
-import { createTaskSchema } from "~/schemas/task-schemas";
+import { createTaskSchema, updateTaskSchema } from "~/schemas/task-schemas";
+import { UpdateTaskController } from "~/controllers/update-task-controller";
 
 export const tasksRouter = Router();
 
-tasksRouter.get("/", validateRequestQuery(authenticationSchema.query), async (req, res) => {
-  const tasks = await new ListTasksController().handle({ username: req.query.username });
+tasksRouter.get("/", validateRequest({ query: authenticationSchema.query }), async (req, res) => {
+  try {
+    const tasks = await new ListTasksController().handle({ username: req.query.username });
 
-  res.json(tasks);
+    res.json(tasks);
+  } catch (err: unknown) {
+    if (err instanceof ApplicationError) {
+      return res.status(err.statusCode).json({ error: err.message });
+    }
+
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
+  }
 });
 
 tasksRouter.post(
   "/",
-  validateRequestBody(createTaskSchema.body),
-  validateRequestQuery(createTaskSchema.query),
+  validateRequest({
+    body: createTaskSchema.body,
+    query: createTaskSchema.query
+  }),
   async (req, res) => {
     try {
       const tasks = await new CreateTaskController().handle({
@@ -26,8 +39,38 @@ tasksRouter.post(
       });
 
       res.json(tasks);
-    } catch (err) {
-      res.status(400).json({ error: "something went wrong" });
+    } catch (err: unknown) {
+      if (err instanceof ApplicationError) {
+        return res.status(err.statusCode).json({ error: err.message });
+      }
+
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
+    }
+  }
+);
+
+tasksRouter.put(
+  "/:taskId",
+  validateRequest({
+    body: updateTaskSchema.body,
+    query: updateTaskSchema.query,
+    params: updateTaskSchema.params
+  }),
+  async (req, res) => {
+    try {
+      const tasks = await new UpdateTaskController().handle({
+        taskId: Number(req.params.taskId),
+        title: req.body.title,
+        done: req.body.done
+      });
+
+      res.json(tasks);
+    } catch (err: unknown) {
+      if (err instanceof ApplicationError) {
+        return res.status(err.statusCode).json({ error: err.message });
+      }
+
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
 );
