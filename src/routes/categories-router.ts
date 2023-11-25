@@ -32,6 +32,7 @@ categoriesRouter.get(
         return res.status(err.statusCode).json({ error: err.message });
       }
 
+      console.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
@@ -56,6 +57,7 @@ categoriesRouter.post(
         return res.status(err.statusCode).json({ error: err.message });
       }
 
+      console.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
@@ -82,6 +84,7 @@ categoriesRouter.put(
         return res.status(err.statusCode).json({ error: err.message });
       }
 
+      console.error(err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
     }
   }
