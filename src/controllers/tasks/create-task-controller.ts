@@ -6,6 +6,7 @@ import { ApplicationError } from "~/errors/application-error";
 type Props = {
   username: string;
   title: string;
+  categoryId: number;
 };
 
 export class CreateTaskController {
@@ -20,12 +21,22 @@ export class CreateTaskController {
       throw new ApplicationError("User not found", httpStatus.BAD_REQUEST);
     }
 
+    const category = await prisma.category.findFirst({
+      where: {
+        id: user.id
+      }
+    });
+
+    if (!category) {
+      throw new ApplicationError("Category not found", httpStatus.BAD_REQUEST);
+    }
+
     const task = await prisma.task.create({
       data: {
         title,
-        user: {
+        category: {
           connect: {
-            id: user.id
+            id: category.id
           }
         }
       }
