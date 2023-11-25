@@ -26,6 +26,7 @@ model Task {
   done       Boolean  @default(false)
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId Int
+  position   Int      @default(1)
 }
 
 model Category {
