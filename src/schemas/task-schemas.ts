@@ -1,23 +1,27 @@
 import { z } from "zod";
 
+const taskId = z.string().regex(/^\d+$/);
+const title = z.string();
+const done = z.boolean();
+
 export const createTaskSchema = {
   body: z.object({
-    title: z.string()
+    title
   })
 };
 
 export const updateTaskSchema = {
   body: z.object({
-    title: z.string(),
-    done: z.boolean()
+    title,
+    done
   }),
   params: z.object({
-    taskId: z.number()
+    taskId
   })
 };
 
 export const deleteTaskSchema = {
   params: z.object({
-    taskId: z.number()
+    taskId
   })
 };
