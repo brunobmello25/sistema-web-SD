@@ -7,9 +7,15 @@ import { UpdateTaskController } from "~/controllers/tasks/update-task-controller
 import { DeleteTaskController } from "~/controllers/tasks/delete-task-controller";
 
 import { authenticationSchema } from "~/schemas/authentication-schemas";
-import { createTaskSchema, deleteTaskSchema, updateTaskSchema } from "~/schemas/task-schemas";
+import {
+  createTaskSchema,
+  deleteTaskSchema,
+  reorderTaskSchema,
+  updateTaskSchema
+} from "~/schemas/task-schemas";
 
 import { ApplicationError } from "~/errors/application-error";
+import { ReorderTaskController } from "~/controllers/tasks/reorder-task";
 
 export const tasksRouter = Router();
 
@@ -78,6 +84,33 @@ tasksRouter.delete(
       });
 
       res.sendStatus(httpStatus.NO_CONTENT);
+    } catch (err: unknown) {
+      if (err instanceof ApplicationError) {
+        return res.status(err.statusCode).json({ error: err.message });
+      }
+
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
+    }
+  }
+);
+
+tasksRouter.put(
+  "/:taskId/reorder",
+  validateRequest({
+    query: authenticationSchema.query,
+    body: reorderTaskSchema.body,
+    params: reorderTaskSchema.params
+  }),
+  async (req, res) => {
+    try {
+      const task = await new ReorderTaskController().handle({
+        taskId: Number(req.params.taskId),
+        username: req.query.username,
+        categoryId: req.body.categoryId,
+        beAfter: req.body.beAfter
+      });
+
+      res.status(httpStatus.OK).json(task);
     } catch (err: unknown) {
       if (err instanceof ApplicationError) {
         return res.status(err.statusCode).json({ error: err.message });
