@@ -21,13 +21,13 @@ tasksRouter.post(
   }),
   async (req, res) => {
     try {
-      const tasks = await new CreateTaskController().handle({
+      const task = await new CreateTaskController().handle({
         username: req.query.username,
         title: req.body.title,
         categoryId: Number(req.body.categoryId)
       });
 
-      res.json(tasks);
+      res.json(task);
     } catch (err: unknown) {
       if (err instanceof ApplicationError) {
         return res.status(err.statusCode).json({ error: err.message });
@@ -47,13 +47,13 @@ tasksRouter.put(
   }),
   async (req, res) => {
     try {
-      const tasks = await new UpdateTaskController().handle({
+      const task = await new UpdateTaskController().handle({
         taskId: Number(req.params.taskId),
         title: req.body.title,
         done: req.body.done
       });
 
-      res.json(tasks);
+      res.json(task);
     } catch (err: unknown) {
       if (err instanceof ApplicationError) {
         return res.status(err.statusCode).json({ error: err.message });
