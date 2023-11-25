@@ -73,7 +73,8 @@ tasksRouter.delete(
   async (req, res) => {
     try {
       await new DeleteTaskController().handle({
-        taskId: Number(req.params.taskId)
+        taskId: Number(req.params.taskId),
+        username: req.query.username
       });
 
       res.sendStatus(httpStatus.NO_CONTENT);

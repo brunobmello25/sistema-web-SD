@@ -17,3 +17,9 @@ export const updateCategorySchema = {
     categoryId
   })
 };
+
+export const deleteCategorySchema = {
+  params: z.object({
+    categoryId
+  })
+};
