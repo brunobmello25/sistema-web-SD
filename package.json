@@ -32,6 +32,8 @@
     "@prisma/client": "5.6.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "zod": "^3.22.4"
+    "http-status": "^1.7.3",
+    "zod": "^3.22.4",
+    "zod-express-middleware": "^1.4.0"
   }
 }
