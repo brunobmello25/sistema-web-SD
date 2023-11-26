@@ -21,6 +21,7 @@ export class UpdateTaskController {
       throw new ApplicationError("Task not found", httpStatus.NOT_FOUND);
     }
 
+    console.log("updating done: ", done);
     const updatedTask = await prisma.task.update({
       where: {
         id: taskId

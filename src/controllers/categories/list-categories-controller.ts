@@ -27,7 +27,16 @@ export class ListCategoriesController {
         }
       },
       include: {
-        tasks: true
+        tasks: {
+          orderBy: [
+            {
+              done: "asc"
+            },
+            {
+              position: "asc"
+            }
+          ]
+        }
       }
     });
 
