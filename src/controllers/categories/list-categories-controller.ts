@@ -26,6 +26,9 @@ export class ListCategoriesController {
           id: user.id
         }
       },
+      orderBy: {
+        position: "asc"
+      },
       include: {
         tasks: {
           orderBy: [

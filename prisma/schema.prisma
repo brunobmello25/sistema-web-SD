@@ -37,4 +37,5 @@ model Category {
   tasks     Task[]
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
+  position  Int      @default(1)
 }
