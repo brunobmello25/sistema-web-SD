@@ -23,3 +23,12 @@ export const deleteCategorySchema = {
     categoryId
   })
 };
+
+export const reorderCategorySchema = {
+  body: z.object({
+    beAfter: z.number()
+  }),
+  params: z.object({
+    categoryId
+  })
+};

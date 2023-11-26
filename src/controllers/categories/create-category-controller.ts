@@ -20,9 +20,21 @@ export class CreateCategoryController {
       throw new ApplicationError("User not found", httpStatus.BAD_REQUEST);
     }
 
+    const lastCategory = await prisma.category.findFirst({
+      orderBy: {
+        position: "desc"
+      },
+      where: {
+        user: {
+          id: user.id
+        }
+      }
+    });
+
     const category = await prisma.category.create({
       data: {
         name,
+        position: lastCategory ? lastCategory.position + 1 : 1,
         user: {
           connect: {
             id: user.id

@@ -9,11 +9,13 @@ import { ListCategoriesController } from "~/controllers/categories/list-categori
 import {
   createCategorySchema,
   deleteCategorySchema,
+  reorderCategorySchema,
   updateCategorySchema
 } from "~/schemas/categories-schemas";
 import { CreateCategoryController } from "~/controllers/categories/create-category-controller";
 import { UpdateCategoryController } from "~/controllers/categories/update-category-controller";
 import { DeleteCategoryController } from "~/controllers/categories/delete-category-controller";
+import { ReorderCategoryController } from "~/controllers/categories/reorder-category";
 
 export const categoriesRouter = Router();
 
@@ -104,6 +106,33 @@ categoriesRouter.delete(
       });
 
       res.sendStatus(httpStatus.NO_CONTENT);
+    } catch (err: unknown) {
+      if (err instanceof ApplicationError) {
+        return res.status(err.statusCode).json({ error: err.message });
+      }
+
+      console.error(err);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: "something went wrong" });
+    }
+  }
+);
+
+categoriesRouter.put(
+  "/:categoryId/reorder",
+  validateRequest({
+    query: authenticationSchema.query,
+    body: reorderCategorySchema.body,
+    params: reorderCategorySchema.params
+  }),
+  async (req, res) => {
+    try {
+      const category = await new ReorderCategoryController().handle({
+        username: req.query.username,
+        categoryId: Number(req.params.categoryId),
+        beAfter: req.body.beAfter
+      });
+
+      res.status(httpStatus.OK).json(category);
     } catch (err: unknown) {
       if (err instanceof ApplicationError) {
         return res.status(err.statusCode).json({ error: err.message });
