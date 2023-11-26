@@ -33,9 +33,6 @@ export class ListCategoriesController {
         tasks: {
           orderBy: [
             {
-              done: "asc"
-            },
-            {
               position: "asc"
             }
           ]
