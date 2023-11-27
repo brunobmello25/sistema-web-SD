@@ -7,9 +7,6 @@ title Arquitetura Física - Aplicação de Lista de Tarefas
 
 package "Railway" {
     [Banco de Dados] DATABASE_COLOR
-}
-
-package "Railway app" {
     [Servidor Backend] SERVER_COLOR
 }
 
@@ -17,8 +14,7 @@ package "Vercel" {
     [Servidor Frontend] CLIENT_COLOR
 }
 
-' note right of package railway app
-note right of [Servidor Backend]
+note left of "Railway"
   a plataforma railway provê dois serviços diferentes:
   um deles se chama "railway" para hospedagem de banco
   de dados e outro se chama "railway.app", para hospedagem

@@ -5,14 +5,14 @@
 
 title Arquitetura Lógica - Aplicação de Lista de Tarefas
 
-[Banco de Dados] DATABASE_COLOR
+[Camada de Dados] DATABASE_COLOR
 
-[Servidor Backend] SERVER_COLOR
+[Camada de Aplicação] SERVER_COLOR
 
-[Servidor Frontend] CLIENT_COLOR
+[Camada de Apresentação] CLIENT_COLOR
 
-[Banco de Dados] --> [Servidor Backend] : Comunicação TCP/IP com o servidor de DB
+[Camada de Dados] --> [Camada de Aplicação]
 
-[Servidor Backend] --> [Servidor Frontend] : Comunicação HTTP Cliente/Servidor via API Rest
+[Camada de Aplicação] --> [Camada de Apresentação]
 
 @enduml
