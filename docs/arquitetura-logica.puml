@@ -5,14 +5,33 @@
 
 title Arquitetura Lógica - Aplicação de Lista de Tarefas
 
-[Camada de Dados] DATABASE_COLOR
+top to bottom direction
 
-[Camada de Aplicação] SERVER_COLOR
+package "Dados" {
+    [Tarefas]
+    [Usuários]
+    [Categorias]
+}
 
-[Camada de Apresentação] CLIENT_COLOR
+package "Servidor" {
+    [Controlador de Sessões]
+    [Controlador de Categorias]
+    [Controlador de Tarefas]
+}
 
-[Camada de Dados] --> [Camada de Aplicação]
+package "Cliente" {
+    [Interface Web]
+}
 
-[Camada de Aplicação] --> [Camada de Apresentação]
+[Usuários] --> [Categorias] : tem várias
+[Categorias] --> [Tarefas] : tem várias
+
+[Controlador de Sessões] --> [Usuários]
+[Controlador de Categorias] --> [Categorias]
+[Controlador de Tarefas] --> [Tarefas]
+
+[Interface Web] --> [Controlador de Sessões]
+[Interface Web] --> [Controlador de Categorias]
+[Interface Web] --> [Controlador de Tarefas]
 
 @enduml
